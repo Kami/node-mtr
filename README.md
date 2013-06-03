@@ -2,6 +2,12 @@
 
 Node.js wrapper for the `mtr` command / tool.
 
+## Installation
+
+```bash
+npm install mtr
+```
+
 ## Build Status
 
 [![Build Status](https://api.travis-ci.org/Kami/node-mtr.png)](http://travis-ci.org/Kami/node-mtr)
