@@ -155,7 +155,7 @@ exports['test_traceroute_route_2'] = function(test, assert) {
 exports['test_traceroute_route_with_hostnames'] = function(test, assert) {
   var mtr;
 
-  mtr = new Mtr('8.8.8.8', {});
+  mtr = new Mtr('8.8.8.8', {resolveDns: true});
   Mtr.prototype._spawn = exports.getEmitter('./tests/fixtures/normal_output_to_8.8.8.8_with_hostnames.txt');
   mtr.traceroute();
 
