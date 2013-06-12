@@ -4,11 +4,16 @@
   "version": "0.1.0",
   "author": "Tomaz Muraus <tomaz@tomaz.me>",
   "contributors": [
-      {
-        "name": "Tomaz Muraus",
-        "email": "tomaz@tomaz.me",
-        "url": "http://www.tomaz.me"
-      }
+    {
+      "name": "Tomaz Muraus",
+      "email": "tomaz@tomaz.me",
+      "url": "http://www.tomaz.me"
+    },
+    {
+      "name": "Paul Querna",
+      "email": "pquerna@apache.org",
+      "url": "http://journal.paul.querna.org/"
+    }
   ],
   "keywords": [
     "traceroute",
