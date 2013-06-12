@@ -151,3 +151,23 @@ exports['test_traceroute_route_2'] = function(test, assert) {
     test.finish();
   });
 };
+
+exports['test_traceroute_route_with_hostnames'] = function(test, assert) {
+  var mtr;
+
+  mtr = new Mtr('8.8.8.8', {resolveDns: true});
+  Mtr.prototype._spawn = exports.getEmitter('./tests/fixtures/normal_output_to_8.8.8.8_with_hostnames.txt');
+  mtr.traceroute();
+
+  mtr.on('hop', function(hop) {
+    if (hop.number === 14) {
+      assert.equal(hop.number, 14);
+      assert.equal(hop.hostname, 'google-public-dns-a.google.com');
+      assert.equal(hop.ip, '8.8.8.8');
+    }
+  });
+
+  mtr.on('end', function() {
+    test.finish();
+  });
+};
