@@ -93,8 +93,8 @@ exports['test_traceroute_route_1'] = function(test, assert) {
 
     splitHops[hopNumber] = splitHops[hopNumber] + 1;
 
-    if (hopNumber === 0) {
-      assert.equal(hop.number, 0);
+    if (hopNumber === 1) {
+      assert.equal(hop.number, 1);
       assert.equal(hop.ip, '127.0.0.1');
       assert.deepEqual(hop.rtts, [0.087, 0.075, 0.077, 0.08, 0.076, 0.075,
                                   0.07, 0.086, 0.076, 0.084]);
@@ -102,7 +102,7 @@ exports['test_traceroute_route_1'] = function(test, assert) {
   });
 
   mtr.on('end', function() {
-    assert.equal(hopNumber, 0);
+    assert.equal(hopNumber, 1);
     test.finish();
   });
 };
@@ -128,20 +128,20 @@ exports['test_traceroute_route_2'] = function(test, assert) {
 
     splitHops[hopNumber] = splitHops[hopNumber] + 1;
 
-    if (hopNumber === 0) {
-      assert.equal(hop.number, 0);
+    if (hopNumber === 1) {
+      assert.equal(hop.number, 1);
       assert.equal(hop.ip, '50.56.129.162');
       assert.deepEqual(hop.rtts, [1.011, 0.739, 0.824, 0.737, 0.743, 0.648,
                                   0.799, 0.725, 0.724, 0.787]);
     }
-    else if (hopNumber === 13) {
-      assert.equal(hop.number, 13);
+    else if (hopNumber === 14) {
+      assert.equal(hop.number, 14);
       assert.equal(hop.ip, '8.8.8.8');
     }
   });
 
   mtr.on('end', function() {
-    assert.equal(hopNumber, 13);
+    assert.equal(hopNumber, 14);
     test.finish();
   });
 };
@@ -154,8 +154,8 @@ exports['test_traceroute_route_with_hostnames'] = function(test, assert) {
   mtr.traceroute();
 
   mtr.on('hop', function(hop) {
-    if (hop.number === 14) {
-      assert.equal(hop.number, 14);
+    if (hop.number === 15) {
+      assert.equal(hop.number, 15);
       assert.equal(hop.hostname, 'google-public-dns-a.google.com');
       assert.equal(hop.ip, '8.8.8.8');
     }
