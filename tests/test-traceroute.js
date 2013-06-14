@@ -73,7 +73,7 @@ exports['test_error_invalid_target'] = function(test, assert) {
 };
 
 exports['test_traceroute_route_1'] = function(test, assert) {
-  var hopCount, splitHops, hopNumber, mtr;
+  var hopCount, splitHops, hopNumber, mtr, branchCount = 0;
 
   hopCount = 0;
   splitHops = {};
@@ -93,27 +93,24 @@ exports['test_traceroute_route_1'] = function(test, assert) {
 
     splitHops[hopNumber] = splitHops[hopNumber] + 1;
 
-    if (hopNumber === 0) {
-      assert.equal(hop.number, 0);
+    if (hopNumber === 1) {
+      branchCount++;
+      assert.equal(hop.number, 1);
       assert.equal(hop.ip, '127.0.0.1');
       assert.deepEqual(hop.rtts, [0.087, 0.075, 0.077, 0.08, 0.076, 0.075,
                                   0.07, 0.086, 0.076, 0.084]);
     }
-    else if (hopNumber === 1) {
-      assert.equal(hop.number, 1);
-      assert.equal(hop.ip, '127.0.0.1');
-      assert.deepEqual(hop.rtts, [0.028]);
-    }
   });
 
   mtr.on('end', function() {
+    assert.equal(branchCount, 1);
     assert.equal(hopNumber, 1);
     test.finish();
   });
 };
 
 exports['test_traceroute_route_2'] = function(test, assert) {
-  var hopCount, splitHops, hopNumber, mtr;
+  var hopCount, splitHops, hopNumber, mtr, branchCount = 0;
 
   hopCount = 0;
   splitHops = {};
@@ -133,41 +130,46 @@ exports['test_traceroute_route_2'] = function(test, assert) {
 
     splitHops[hopNumber] = splitHops[hopNumber] + 1;
 
-    if (hopNumber === 0) {
-      assert.equal(hop.number, 0);
+    if (hopNumber === 1) {
+      branchCount++;
+      assert.equal(hop.number, 1);
       assert.equal(hop.ip, '50.56.129.162');
       assert.deepEqual(hop.rtts, [1.011, 0.739, 0.824, 0.737, 0.743, 0.648,
                                   0.799, 0.725, 0.724, 0.787]);
     }
     else if (hopNumber === 14) {
+      branchCount++;
       assert.equal(hop.number, 14);
       assert.equal(hop.ip, '8.8.8.8');
-      assert.deepEqual(hop.rtts, [52.775]);
     }
   });
 
   mtr.on('end', function() {
+    assert.equal(branchCount, 2);
     assert.equal(hopNumber, 14);
     test.finish();
   });
 };
 
 exports['test_traceroute_route_with_hostnames'] = function(test, assert) {
-  var mtr;
+  var mtr, hopNumber;
 
   mtr = new Mtr('8.8.8.8', {resolveDns: true});
   Mtr.prototype._spawn = exports.getEmitter('./tests/fixtures/normal_output_to_8.8.8.8_with_hostnames.txt');
   mtr.traceroute();
 
   mtr.on('hop', function(hop) {
-    if (hop.number === 14) {
-      assert.equal(hop.number, 14);
+    hopNumber = hop.number;
+
+    if (hop.number === 15) {
+      assert.equal(hop.number, 15);
       assert.equal(hop.hostname, 'google-public-dns-a.google.com');
       assert.equal(hop.ip, '8.8.8.8');
     }
   });
 
   mtr.on('end', function() {
+    assert.equal(hopNumber, 15);
     test.finish();
   });
 };
