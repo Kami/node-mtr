@@ -101,7 +101,7 @@ exports['test_traceroute_route_1'] = function(test, assert) {
     }
     else if (hopNumber === 1) {
       assert.equal(hop.number, 1);
-      assert.equal(hop.ip, '127.0.0.1');
+      assert.equal(hop.ip, '127.0.0.2');
       assert.deepEqual(hop.rtts, [0.028]);
     }
   });
@@ -139,15 +139,16 @@ exports['test_traceroute_route_2'] = function(test, assert) {
       assert.deepEqual(hop.rtts, [1.011, 0.739, 0.824, 0.737, 0.743, 0.648,
                                   0.799, 0.725, 0.724, 0.787]);
     }
-    else if (hopNumber === 14) {
-      assert.equal(hop.number, 14);
+    else if (hopNumber === 13) {
+      assert.equal(hop.number, 13);
       assert.equal(hop.ip, '8.8.8.8');
-      assert.deepEqual(hop.rtts, [52.775]);
+      assert.deepEqual(hop.rtts, [47.625, 52.775, 48.252, 55.671, 47.364,
+                                  120.169, 47.689, 47.421, 48.935, 51.049]);
     }
   });
 
   mtr.on('end', function() {
-    assert.equal(hopNumber, 14);
+    assert.equal(hopNumber, 13);
     test.finish();
   });
 };
