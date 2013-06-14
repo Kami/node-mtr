@@ -142,8 +142,8 @@ exports['test_traceroute_route_2'] = function(test, assert) {
     else if (hopNumber === 13) {
       assert.equal(hop.number, 13);
       assert.equal(hop.ip, '8.8.8.8');
-      assert.deepEqual(hop.rtts, [47.625, 52.775, 48.252, 55.671, 47.364,
-                                  120.169, 47.689, 47.421, 48.935, 51.049]);
+      assert.deepEqual(hop.rtts.sort(), [47.625, 52.775, 48.252, 55.671, 47.364,
+                                         120.169, 47.689, 47.421, 48.935, 51.049].sort());
     }
   });
 
