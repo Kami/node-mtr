@@ -1,7 +1,7 @@
 {
   "name": "mtr",
   "description": "Node.js wrapper for the mtr command / tool.",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "Tomaz Muraus <tomaz@tomaz.me>",
   "contributors": [
     {
