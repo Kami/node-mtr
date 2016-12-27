@@ -173,3 +173,46 @@ exports['test_traceroute_route_with_hostnames'] = function(test, assert) {
     test.finish();
   });
 };
+
+exports['test_traceroute_route_osx'] = function(test, assert) {
+  var hopCount, splitHops, hopNumber, mtr, branchCount = 0;
+  var endHop = 10;
+
+  hopCount = 0;
+  splitHops = {};
+  hopNumber = 0;
+
+  mtr = new Mtr('8.8.8.8', {});
+  Mtr.prototype._spawn = exports.getEmitter('./tests/fixtures/osx_normal_output_to_8.8.8.8.txt');
+  mtr.traceroute();
+
+  mtr.on('hop', function(hop) {
+    hopCount++;
+    hopNumber = hop.number;
+
+    if (!splitHops[hopNumber]) {
+      splitHops[hopNumber] = 0;
+    }
+
+    splitHops[hopNumber] = splitHops[hopNumber] + 1;
+
+    if (hopNumber === 1) {
+      branchCount++;
+      assert.equal(hop.number, 1);
+      assert.equal(hop.ip, '192.168.1.1');
+      assert.deepEqual(hop.rtts, [ 1.899, 1.345, 1.221, 3.08, 4.08, 4.041,
+                                   1.323, 1.384, 1.434, 1.095 ]);
+    }
+    else if (hopNumber === endHop) {
+      branchCount++;
+      assert.equal(hop.number, endHop);
+      assert.equal(hop.ip, '8.8.8.8');
+    }
+  });
+
+  mtr.on('end', function() {
+    assert.equal(branchCount, 2);
+    assert.equal(hopNumber, endHop);
+    test.finish();
+  });
+};
